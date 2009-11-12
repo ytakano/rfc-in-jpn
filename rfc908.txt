@@ -1264,6 +1264,13 @@ Status of This Memo
      this  by  sending  a  NUL  segment to each of the other RDPs.  An
      acknowledgement indicates the connection is still open and valid.
 
+       しかしながら，RDP自身によるアクション無しでは回復が不可能な場合がある．
+     例えば，もし，全てのコネクションブロックが使用中である場合，ブロークンコネ 
+     クションを再接続しようとする試みは失敗するだろう．この場合，RDPはコネクショ
+     ンが完全に開かれているかを確認することによって，リソースの解放を試みる．こ
+     れは，NULセグメントを他のRDPに送信することによって行われ，これに対する確認
+     応答はまだこのコネクションが開かれていて正当であることを意味する．
+
           To minimize network overhead,  verification  of  connections
      should  only  be  done  when  necessary  to  prevent  a  deadlock
      situation.  Only inactive connections  should  be  verified.   An
@@ -1272,6 +1279,12 @@ Status of This Memo
      input or output queues, and that has not had any traffic for some
      period of time.
 
+       ネットワークのオー場ヘッドを減らすために，コネクションが成立しているかの
+     確認はデッドロックを回避するために，必要な場合，すなわちアクティブでないコ 
+     ネクションのみ確認されるべきである．アクティブでないコネクションは，未送信
+     の確認応答を送っていないセグメントが無く，ユーザ入力と出力キューにセグメン
+     トが無く，しばらくの間トラフィックが全くないコネクションであると定義され
+     る．
 
 
      3.3  Data Communication
