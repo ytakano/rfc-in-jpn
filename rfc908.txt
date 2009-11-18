@@ -1279,8 +1279,8 @@ Status of This Memo
      input or output queues, and that has not had any traffic for some
      period of time.
 
-       ネットワークのオー場ヘッドを減らすために，コネクションが成立しているかの
-     確認はデッドロックを回避するために，必要な場合，すなわちアクティブでないコ 
+       ネットワークのオーバーヘッドを減らすために，コネクションが成立しているか
+     の確認はデッドロックを回避するために必要な場合，すなわちアクティブでないコ 
      ネクションのみ確認されるべきである．アクティブでないコネクションは，未送信
      の確認応答を送っていないセグメントが無く，ユーザ入力と出力キューにセグメン
      トが無く，しばらくの間トラフィックが全くないコネクションであると定義され
@@ -1288,6 +1288,8 @@ Status of This Memo
 
 
      3.3  Data Communication
+
+     3.3  データ通信
 
           Data  flows  through  an  RDP  connection  in  the  form  of
      segments.   Each  user  message  submitted with a Send request is
@@ -1299,7 +1301,14 @@ Status of This Memo
      the  transfer  of  an indeterminate length stream of data between
      ports, buffering data until it is requested by the receiver.
 
-
+     データはRDPのコネクションを通ってセグメント形式で流れる．送信リクエストと共
+     に送られたそれぞれのユーザメッセージは，転送する際，単一のRDPセグメントとし
+     てまとめられる．それぞれのRDPセグメントは，RDPヘッダと1つ以上のデータのオク
+     テットとしてまとめられる．RDPは大きなユーザメッセージを小さなセグメントに分
+     割したり，受信側でメッセージの再組み立てを行ったりと言うことはしない．これ 
+     は，ポート間で不確定の長さのデータストリーム転送，すなわち，受信側でリクエ
+     ストがない限りデータのバッファリング行う，TCPのようなバイトストリームのプロ
+     トコルと違う点である．
 
 
 
@@ -1319,6 +1328,12 @@ Status of This Memo
      the user interface.  Segments are  acknowledged  when  they  have
      been accepted by the receiving RDP.
 
+       RDPのレベルでは，生成された出力セグメントはIP層の入力としてキューイングさ
+     れる．各々のセグメントは，対向側ホストからの確認応答が受信されるまで，送信
+     側のRDPによって保持される．入力セグメントはユーザインタフェースを通して，
+     ユーザプロセスの入力としてキューイングされる．セグメントは，受信側のRDPに
+     よって受信されたときに，受信した旨通知がされる．
+
           The receiving end of each connection specifies  the  maximum
      segment  size  it  will  accept.   Any  attempt  by the sender to
      transmit a larger segment is an error.  If RDP determines that  a
@@ -1329,12 +1344,25 @@ Status of This Memo
      maximum  acceptable  segment  size.   No  attempt will be made to
      recover from or otherwise overcome this error condition.
 
+       各々のコネクションの受信端は，受信可能な最大セグメントサイズを指定する．
+     送信側の，より大きなセグメントを送ろうとするいかなる試みも，エラーとなりま
+     す．もしRDPが，Sendリクエストによって確保されたバッファが，コネクション上で
+     許された最大セグメントサイズを超えていると見なした場合，RDPはユーザにエラー
+     を返す．それに加え，RDPは受信可能なセグメントサイズを超えるデータが， 受信
+     セグメント中に含まれた居た場合，RSTセグメントを使ってコネクションを中断す
+     る．RDPは，エラーからの回復を全く行おうとはしないか，ないしは他の方法でエラ
+     ーから回復しようとする．
+
           If  sequenced  delivery  of  segments  is  necessary  for  a
      connection, the requirement must be stated when the connection is
      established.  Sequenced  delivery  is  specified  when  the  Open
      request is made.  Sequenced delivery of segments will then be the
      mode of delivery for the life of the connection.
 
+       もしコネクションに順序つきのセグメントの配送が必要なら，コネクションが成
+     立したときにその旨指定しなければならない．順序つき配送はOpenリクエストが生
+     成されたときに指定される．指定された場合，コネクションが生存している間は，
+     セグメントの順序つきの配送が行われる．
 
 
      3.4  Reliable Communication
