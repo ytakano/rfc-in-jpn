@@ -115,6 +115,8 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
 
 1.  Introduction
 
+1.  イントロダクション
+
    In the past, the IAB has published a number of documents relating to
    Internet transparency and the end-to-end principle, and other IETF
    documents have also touched on these issues as well.  These documents
@@ -181,6 +183,8 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
 
 2.  What is the Problem?
 
+2.  問題は何か？
+
    The discussions on the desire for IPv6 NAT can be summarized as
    follows.  Network address translation is viewed as a solution to
    achieve a number of desired properties for individual networks:
@@ -188,7 +192,12 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
    hiding, preventing host counting, and simple security.  We discuss
    below each of these perceived benefits from NAT.
 
-
+   IPv6 NATへの要求に関する議論は以下に要約される，ネットワークアドレス変換は個
+   々のネットワークにおいて多くの望ましい特性を得るための解決方法と見なされる．
+   つなり，IPv6 NATは，アドレス再設定の回避，マルチホーミングの容易化，内部トポ
+   ロジの隠蔽，ホスト走査からの防御，単純なセキュリティなどを可能とするとされ
+   る．我々は以下で，これらのNATから得られるとされている利益について議論を行う．
+   
 
 
 
@@ -198,6 +207,8 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
 
 
 2.1.  Avoiding Renumbering
+
+2.1.  アドレス再設定の回避
 
    As discussed in [RFC4864] Section 2.5, the ability to change service
    providers with minimal operational difficulty is an important
@@ -209,11 +220,24 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
    intrusion detection systems, inventory management systems, patch
    management systems, etc.
 
+   [RFC4864]の2.5節によると，最小限の作業でサービスプロバイダを変更出来ること
+   は，多くのネットワークにとって重要な要求である．しかしながら，アドレスの再割
+   り当ては，[I-D.carpenter-renum-needs-work]で議論されているように，今日でも非
+   常に骨の折れる作業である．現状，プロバイダの変更を行うと，IPアドレスやプレ
+   フィクス扱うデバイス，つまり，DNSサーバ，DHCPサーバ，ファイアウォール，IPSec
+   のポリシや，さらには，もしかすると侵入検知システム，在庫管理システム，パッチ
+   管理システム等まで，多くのシステムの再設定を行わなければならい．
+
    In practice today, renumbering does not seem to be a significant
    problem in consumer networks, such as home networks, where addresses
    or prefixes are typically obtained through DHCP, and are rarely
    manually configured in any component.  However in managed networks,
    renumbering can be a serious problem.
+
+   今日では，実際のところ，ホームネットワークなどDHCPによってアドレスやプレフィ
+   クスが配布され，手動で設定を行うことが非常にまれであるようなコンシューマネッ
+   トワークでは，アドレス再設定は重大な問題ではないように思われる．しかしなが
+   ら，マネージドネットワークでは，アドレス再設定は重大な問題となりうる．
 
    We also note that many, if not most, large enterprise networks avoid
    the renumbering problem by using provider-independent (PI) IP address
@@ -224,6 +248,17 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
    requests for PI address blocks; one main reason that they hesitate in
    assigning PI address blocks to all users is the concern about the PI
    addresses' impact on the routing system scalability.
+
+   同様に，全てとは言えないまでにしても，たくさんの大きなエンタープライズネット
+   ワークはプロバイダ独立アドレス(PIアドレス)のIPアドレス部六を利用することで，
+   アドレス再設定を避けていることは，特筆すべき点である．PIアドレスの利用は現在
+   のインターネットオペレーション固有のものである．しかしながら，より小さな．PI
+   アドレスブロックを取得できないようなマネージドネットワークでは，アドレス再設
+   定は依然として重大な問題である．地域インターネットレジストリ(RIRs)は絶えずPI
+   アドレスブロックの申請を受けている．この主たる理由の一つとして，RIRsが，全て
+   のユーザへPIアドレスブロックを割り当てることは，ルーティングシステムの規模追
+   従性に影響を与える事を懸念して，PIアドレスの割り当てを躊躇しているという事実
+   が挙げられる．
 
 2.2.  Site Multihoming
 
