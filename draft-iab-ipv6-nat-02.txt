@@ -124,6 +124,12 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
    reaffirms these principles and provides a review of the various
    documents in this area.
 
+   過去，IABはインターネットの透明性とend-to-endの原則に関連したドキュメントを数
+   多く発表してきた．さらに，他のIEFTのドキュメントも同様に，この問題点に触れて 
+   きた．これらのドキュメントは，インターネットアーキテクチャが基づいている一般
+   的な原理を言い表しており，同様に，インターネットコミュニティが将来に渡って努
+   めて守るべきの核となる価値基準を示している．
+
    Facing imminent IPv4 address space exhaustion, recently there have
    been increased efforts in IPv6 deployment.  However, since late last
    year there have also been increased discussions about whether the
@@ -139,16 +145,38 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
    protocol standards led to different IPv4 NAT implementations, making
    NAT traversal difficult.
 
+   切迫したIPv4アドレス枯渇問題に直面し，最近ではIPv6の普及努力が喚起されてい
+   る．しかしながら，ここ数年ほど前から，IETFはIPv6のためのネットワークアドレス
+   変換を標準化すべきかという議論も増えてきている．IPv6 NATの標準化に反対する
+   人々は，基本的にIPv6にはNATが必要ないと述べ，さらに，IPv6がロールアウトし続け
+   るのに従い，インターネットは，インターネットが大成功を収める鍵となった
+   end-to-endの接続性を，再び取り戻す方向へ向かうべきであるとしている．その一
+   方，IPv6 NATに賛成する人々は，いずれにせよ，NATが多くの問題を解決することが出
+   来るので，NATベンダはIPv6 NATを搭載した機器をリリースするだろうと信じている
+   し，さらに，IETFは，IPv4 NATで起きたような同様の過ちを繰り返すことを避けるべ
+   きだとしている．IPv4 NATの場合，そのプロトコル標準の不完全さのため種々の実装
+   が登場しNAT越えが困難になってしまった．
+
    An earlier effort, [RFC4864], provides a discussion of the real or
    perceived benefits of NAT and suggests alternatives for most of them,
    with the intent of showing that NAT is not required to get the
    desired benefits.  However, it also identifies several gaps remaining
    to be filled.
 
+   以前の成果[RFC4864]では，現実的に知られているNATの利点について議論を行い，そ
+   の上で，NATは望んだ利益を得るために必要でないと示すために，NATの代替手段を提
+   案している．しかしながら，そこでは同様に，幾つかの埋めるべきギャップが残され
+   ていると判断している．
+
    This document provides the IAB's current thoughts on this debate.  We
    believe that the issue at hand must be viewed from an overall
    architectural standpoint in order to fully assess the pros and cons
    of IPv6 NAT on the global Internet and its future development.
+
+   このドキュメントは，この論争についての現時点におけるIABの見解を示すものであ
+   る．我々は，この文書は近い将来に，アーキテクチャ全般の視点から，グローバルイ
+   ンターネットにおけるIPv6 NATの賛否の判断と，将来の開発のために参照されるべき
+   であると信じている．
 
 
 2.  What is the Problem?
