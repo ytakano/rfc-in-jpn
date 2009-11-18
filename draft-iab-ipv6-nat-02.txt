@@ -262,6 +262,8 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
 
 2.2.  Site Multihoming
 
+2.2.  サイトマルチホーミング
+
    Another important requirement in many networks is site multihoming.
    A multihomed site essentially requires that its IP prefixes be
    present in the global routing table to achieve the desired
@@ -273,6 +275,17 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
    through another service provider, effectively disabling provider-
    based prefix aggregation.  This practice makes the global routing
    table scale linearly with the number of multihomed user networks.
+
+   多くのネットワークにおいて，もう一つの重要な要求はサイトマルチホーミングであ
+   る．マルチホームされたサイトは本質的に，負荷分散に加え，目的とするインター
+   ネット接続の信頼性を達成するために，そのIPプレフィクスがグローバルなルーティ
+   ングテーブルに存在することを要求する．今日の実情は，PIアドレスを持つマルチホ
+   ームされたサイトは，自身のPIアドレスをグローバルなルーティングシステムにアナ
+   ウンスする．サービスプロバイダから得たプロバイダ集約アドレス(PAアドレス)を持
+   つ，マルチホームされたサイトは，同様にPAプレフィクスもグローバルなルーティン
+   グシステムにアナウンスする．事実上，これらはプロバイダベースでのプレフィクス
+   集約を無効としてしまう．この習慣によって，グローバルなルーティングテーブルの
+   大きさは，マルチホームされたユーザネットワークの数に比例するようになる．
 
    This issue was identified in [RFC4864] Section 6.4.  Unfortunately,
    no solution except NAT has been deployed today that can insulate the
@@ -295,6 +308,18 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
    roll the same solution into multihoming support in the IPv6
    deployment.
 
+   この問題は[RFC4864]の6.4節で指摘されている．残念なことに，マルチホームされた
+   サイト数の増加に伴うグローバルなルーティングテーブルの肥大化を防ぐ唯一の解決
+   方法は，今日広まっている，NATを用いる方法のみである．ただし，マルチホームされ
+   たサイトは，単純に，サービスプロバイダから取得した複数のIPv4アドレスを出口
+   ルータである，単一のIPv4 NAT箱に割り当てると想定する．マルチホームを容易にす
+   るためにアドレス変換を利用することは，利点がある．つまり，NATを用いたマルチ
+   ホームは，ルーティングテーブルの規模追従性に悪影響を及ぼさない．NAT箱は，単純
+   にそれぞれのサービスプロバイダから一つのアドレスを貰えばいいのである．従っ
+   て，NATを使ってマルチホームされたサイトは自身の経路をインターネットに広告しな
+   くて良くなる．直感的に，これは，マルチホームをサポートしたIPv6の普及において
+   も，同じ方法でこの問題を解決出来ることが確実であると思われる．
+
    However it is important to point out that a multihomed site
    announcing its own PI prefix(es) achieves important benefits that
    NAT-based multihoming support does not provide.  Using PI addresses,
@@ -306,6 +331,16 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
    these benefits from PI-based multihoming, we also note that, in
    today's routing system, these gains are at the cost of the increased
    routing table size for all service providers.
+
+   しかしながら，マルチホームされたサイトが自身のPIプレフィクスをアナウンスする
+   ことは，NATによるマルチホームでは達成できない，肝心な利点があることを示すのは
+   重要だろう．PIアドレスを使うと，少なくともサイトが一つのサービスプロバイダと
+   の接続性が保たれている間は，個々のサービスプロバイダが停止したとしても
+   end-to-endの通信が保証される．また，PIプレフィクスの広告は，トラフィックエン
+   ジニアリングと負荷分散も可能にする．ユーザがPIベースのマルチホームを利用し
+   て，これらの利益を得ていると言うことは，今日のルーティングシステムでは，これ
+   らの利益は，全てのサービスプロバイダがルーティングテーブルサイズの増加という
+   コストを負担した結果得られていると言える．
 
 2.3.  Network Obfuscation
 
