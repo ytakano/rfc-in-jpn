@@ -344,6 +344,8 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
 
 2.3.  Network Obfuscation
 
+2.3.  ネットワークの難解析化
+
    Most network administrators want to hide the details of the computing
    resources, information infrastructure, and communications networks
    within their borders.  This desire is rooted in the basic security
@@ -359,7 +361,21 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
    hosts on their network, as well as the network infrastructure itself,
    private.  They believe that NAT helps achieve this goal.
 
+   ほとんどのネットワーク管理者は，コンピュータ資源，情報基盤，ネットワーク境界
+   における通信などを秘匿したいと思っている．この要求は，組織の資産は，組織が持
+   つ機器に関する全ての情報，オペレーション，操作方法であるという，基本的なセ
+   キュリティの原則に基づいている．つまり，利用方法は独占的な秘密であるのだ．幾
+   つかの組織は，情報と通信の技術を，その分野の競争相手より優位に保つために利用
+   している．これらの秘密を保護するために，何らかの対策が施されなければならない
+   というのは，一般的に信じられている事である．これらの秘密を守る第一の方法は，
+   可能な限り秘匿された情報へのアクセスを防ぐ事である．ネットワーク管理者が，
+   ネットワークに存在するホストや，ネットワーク基盤の情報を非公開にしたままにし
+   ておきたい理由は理解できる．ネットワーク管理者はNATがこの目的を達成するための
+   助けになると信じているのだ．
+
 2.3.1.  Hiding Hosts
+
+2.3.1.  ホストの隠蔽
 
    As a specific measure of network obfuscation, network administrators
    wish to keep secret any and all information about the computer
@@ -390,6 +406,23 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
    focused, targeted attack.  Operators want to stop both host counting
    and host fingerprinting.
 
+   ネットワークの難解析化の具体策として，ネットワーク管理者は，ネットワーク境界
+   より内側に在るコンピュータシステムのありとあらゆる情報を秘密にしたがってい
+   る．このコンピュータシステムとは，ワークステーション，ラップトップ，サーバ
+   や，プリンタ，スキャナ，IP電話，POS機器，建物内のドア管理機器などを含む．管理
+   者は，外部エンティティがネットワーク上のホスト数を数え上げることを防止した
+   がっている．同様に，ホストの機能や，内容，構造に関する情報を得られるような，
+   ホストのフィンガープリントを取得されることも防ぎたいと思っている．例えば，管
+   理者は，ホストがユーザワークステーションであるか，財務処理サーバであるか，
+   ソースコードをビルドするサーバであるか，プリンタであるかなど，特定されること
+   を防ぎたいと思っている．二つめの，ホストフィンガープリントの隠蔽は，ホストを
+   攻撃する攻撃者の助けとなる詳細を隠すためである．これら詳細とは，OSの種類や
+   バージョン，パッチがあったって居るかどうか，ハードウェアデバイスのモデル，ア
+   プリケーションのインストール状況やバージョンとパッチなどその他情報を含くんで
+   いる．これらの情報が得られたら，攻撃者はより明確で，対象物を絞った攻撃が行え
+   るようになる．そのため，オペレータはホスト数え上げや，ホストのフィンガープリ
+   ントの漏洩を防ぎたく思っている．
+
    Where host counting is a concern, it is worth pointing out some of
    the challenges in preventing it.  [Bellovin] showed how one can
    successfully count the number of hosts behind a certain type of
@@ -407,10 +440,26 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
    convenience, and for every unit of convenience you hope to gain, you
    must give up a unit of security.
 
+   ここでホスト数え上げに関して，数え上げを防ぐ幾つかの方法を指摘することは価値
+   のあることだろう．[Bellovin]は，特定の単純なNAT箱の裏側にいるホストの数を数え
+   上げる方法を示した．より複雑な，例えば，新しいコネクションが生成されたとき，
+   プールしているパブリックアドレスを内部ホストにランダムに割り当てるネットワー
+   クアドレスポート変換(NAPTs)や，同じホストからのコネクションに恒久的なアドレス
+   の割り当てを行わないような，より複雑なNATは，ホストの数え上げを防ぐ事により成
+   功ている．しかしながら，より複雑なNATを用いると，SIP[RFC3261]やSCTP[RFC4960]
+   などの複雑なコネクション方式をとるプロトコルがNATを越えることをほぼ出来なく
+   なってしまうように思われる．これは，ネットワークコンピュータシステムに昔から
+   知られている原則である．すなわち，セキュリティの向上は利便性の低下であり，利
+   便性の向上はセキュリティの低下である．
+
    If fields such as fragment ID, TCP initial sequence number, or
    ephemeral port number are chosen in a predictable fashion (e.g.,
    sequentially), then an attacker may correlate packets or connections
    coming from the same host.
+
+   もし，フラグメントID，TCPの初期シーケンス番号，エフェメラルポート番号などの
+   フィールドが，予測可能な方法で選ばれていたなら，攻撃者は同一ホストから来るパ
+   ケット，又はコネクションであるかを判別することが出来るかもしれない．
 
    To prevent counting hosts by counting addresses, one might be tempted
    to use a separate IP address for each transport-layer connection.
