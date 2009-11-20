@@ -474,6 +474,17 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
    observed.  Hence such an approach can adversely affect legitimate
    communication at all times, simply to raise the bar for an attacker.
 
+   アドレスの数え上げによるホスト数え上げを防ぐために，それぞれのトランスポート
+   層のコネクション毎に，違うIPアドレスを使いたい誘惑に狩られる．しかしながら，
+   このようなアプローチはアーキテクチャ上別の問題を引き起こす．ホストのサブネッ
+   ト内にある，スイッチやルータ，ホスト自身のハードウェアインターフェースさえ含
+   む様々なデバイスは，しばしば制限された状態しか保持できない．そのため，大量の
+   アドレスを使った通信は著しいパフォーマンスの低下を引き起こすことがある．それ
+   に加え，もし攻撃者がどうやってかホスト毎のコネクション数の平均を測定できたな
+   ら，攻撃者は観測したコネクション数の数をもとにして，依然としてホストの数を推
+   測することが出来る．それ故，このようなアプローチは，攻撃の難度を少し上げるだ
+   けで，正当な通信を阻害する効果を常に及ぼすだけである．
+
    Where host fingerprinting is concerned, even a complex NAT cannot
    prevent fingerprinting completely.  The way that different hosts
 
