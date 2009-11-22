@@ -501,6 +501,13 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
    this for network administrators as a service, as part of a
    vulnerability assessment.
 
+   ここでホストのフィンガープリントに関して言えば，複雑なNATでさえフィンガープリ
+   ントの漏洩をを完全に防ぐことは出来ない．同じイベントに対する応答や順序が，ホ
+   ストによって異なる場合，ホストのOSや，そのバージョン，場合によってはアプリ
+   ケーションのインストール状況などといったホストの種類は確実に割り出されるだろ
+   う．実際に，ネットワーク管理者のために，脆弱性検査の一部としてこの種の判別を
+   行う製品が存在する．
+
    These scanning tools initiate connections of various types across a
    range of possible IP addresses reachable through that network.  They
    observe what returns, and then send follow-up messages accordingly
@@ -521,6 +528,25 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
    external IP, or a pool of dynamically assigned IP address for each
    host, but does so in a deterministic and predictable way, then the
    operation of fingerprinting is more complex, but quite achievable.
+
+   これらの検査ツールは，ネットワークに存在するアクセス可能なIPアドレスに対し
+   て，様々な種類のコネクションを開始する．検査ツールは，ホストのフィンガープリ
+   ントを完全に取得できるまで，相手先からの返信を観測し，それに対する応答を送信
+   する．もし，ネットワークの検査作業の一部としてなされているのなら，通常，これ
+   らツールはネットワーク内，つまりNATの内側から利用される．もし，これらツール
+   が，外側からの脆弱性検査や進入検査として，パケットの通り道であるネットワーク
+   境界の外側に配置され，長い期間をかけて受動的にコネクションの変化を観測し記録
+   していたなら，外部的に観測された接続が同一ホストからであると決定する手段を
+   持っている場合に限り，それらツールはホストのフィンガープリントを取得すること
+   が出来る．もしNATが単純で静的なものであり，それぞれのホストの内側アドレスが常
+   に同じ外側アドレスに変換され，逆の変換も同じような方法であったのなら，検査
+   ツールは100%の確率でホストのフィンガープリントを取得できる．変換先の外側IPア
+   ドレスとフィンガープリントが分かる内側ホストが得られたら，攻撃者はこれらのホ
+   ストに対しより明確な攻撃，またはこれらホストに対する接続の乗っ取りを行える．
+   もしNATが単一の外側IPアドレスを利用するか，またはプールされたIPアドレスをそれ
+   ぞれのホストに対して動的割り当てを行うかしたときに，このような決定と予測をお
+   こなったなら，フィンガープリントを得るための操作はより複雑になるが，完全に達
+   成可能である．
 
    If the NAT uses dynamically assigned addresses, with short-term
    persistency, but no externally learnable determinism, then the
@@ -552,6 +578,24 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
 
 
    host reachability.
+
+   もしNATが動的アドレスの割り当てをしており，その期間が短期間であり，外部から
+   フィンガープリントを決定するための学習が出来なかった場合，攻撃はより難しくな
+   る．観測者は複数の接続にわたって，特定のIPアドレスが有効である期間中，ホスト
+   のフィンガープリントを取得することが出来るかも知れない．しかし，ひとたびIPア
+   ドレスのマッピングが終了すると，観測者は，どの新しいマッピングが同じホストか
+   らのもであるか即座に知ることが出来ない．多くの観測と相関に関する情報を得た
+   後，攻撃者は観測中の新たな接続が，同一ホストからのものであると時々決定できる
+   ようになる．これらの情報と中間者攻撃のツールを使えば，攻撃者は十分な期間，新
+   たな接続を乗っ取る事が出来るようになる．もしアドレスの短時間割り当て機能がNAT
+   に無い場合，この防御法はほぼ不可能となる．攻撃の難しさととコストが増えるにし
+   たがって，このような攻撃を行う攻撃者は減少すし，そして確実に，攻撃者が現在の
+   IPアドレスの割り当てを知らないホストに対して接続を開始する事は出来なくなるだ
+   ろう．そのため，攻撃者が同一ホストからと思われる接続を乗っ取ること，もしく
+   は，やみくもに接続を開始する攻撃は制限されることになる．これが，ホストの数え
+   上げとフィンがプリント取得から守るために，ネットワーク管理者が複雑なNATの動作
+   を評価する理由である．しかしながら，これらの防御法はホストへの接続性を損なう
+   というコストがかかる．
 
 2.4.  Topology Hiding
 
