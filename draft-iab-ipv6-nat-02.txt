@@ -664,16 +664,16 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
 
 2.5.  Summary Regarding NAT as a Tool for Network Obfuscation
 
-   The degree of obfuscation a NAT can achieve will be a function of its
-   complexity as measured by:
+2.5.  ネットワークの難解析化ツールとしてのNAT関連のまとめ
+
+   The degree of obfuscation a NAT can achieve will be a function of
+   its complexity as measured by:
    o  The use of one-to-many NAPT mappings;
    o  The randomness over time of the mappings from internal to external
       IP addresses, i.e., non-deterministic mappings from an outsider's
       perspective;
    o  The lack of persistence of mappings, i.e., the shortness of
       mapping lifetimes and not using the same mapping repeatedly;
-
-
 
 
 Thaler, et al.           Expires April 29, 2010                 [Page 8]
@@ -683,9 +683,22 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
 
    o  The use of re-writing in IP header fields such as TTL.
 
+   以下のように測定されるように，NATが実現できる難解析化の度合いはNATの複雑さの
+   関数となるだろう．
+   o  一対多のNAPTマッピング
+   o  内部から外部のIPアドレス変換の時間経過によるランダム性．すなわち，外から見
+      た場合の非決定的なマッピング
+   o  マッピングの非永続性．すなわち，マッピング時間の短さと，同じマッピングを繰
+      り返し利用
+   o  TTLといった，IPヘッダフィールドの書き換え
+
    However, deployers be warned: as obfuscation increases, host
    reachability decreases.  Mechanisms such as STUN [RFC5389] and Teredo
    [RFC4380] fail with the more complex NAT mechanisms.
+
+   しかしながら，利用者は次の点に注意する必要がある．難解析化度合いが強くなる
+   と，ホストへの到達性は失われる．STUN [RFC5389]とToredo [RFC4380]は，より複雑
+   なNAT機構はの下では動作しない．
 
 2.6.  Simple Security
 
