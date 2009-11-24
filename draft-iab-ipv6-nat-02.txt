@@ -702,6 +702,8 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
 
 2.6.  Simple Security
 
+2.6.  単純なセキュリティ
+
    It is commonly perceived that a NAT box provides one level of
    protection because external hosts cannot directly initiate
    communication with hosts behind a NAT.  However one should not
@@ -712,11 +714,25 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
    without requiring a translation function.  For further discussion,
    see [RFC4864] Section 4.2.
 
+   外部にあるホストは，NAT下にあるホストと直接通信を開始出来ないので，NAT箱は単
+   純なセキュリティ機能を持つとの共通認識がある．しかしながら，NAT箱とファイア
+   ウォールを混同すべきではない．[RFC4864]の2.2節で議論されているように，変換自
+   体には本来セキュリティ機能は無く，むしろ事前確立もしくは恒久的なフィルタリン
+   グ状態を欠いてしまっている．ステートを持つフィルタリング機構は，アドレス変換
+   無しで同じレベルの防御を可能とする．より詳細な議論が知りたければ，[RFC4864]の
+   4.2節を参照されたい．
+
 2.7.  Discussion
+
+2.7.  議論
 
    At present, the primary benefits one may receive from deploying NAT
    appear to be avoiding renumbering and facilitating multihoming
    without impacting routing scalability.
+
+   目下，NATを利用することによって得られる第一の利点は，アドレスの再設定を回避で
+   きるという点と，ルーティングの規模追従性に影響を及ばずにマルチホーム出来ると
+   いう点である．
 
    Network obfuscation (host hiding, both counting and fingerprinting
    prevention, and topology hiding) may well be achieved with more
@@ -725,6 +741,10 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
    the case: to gain security one must give up some measure of
    convenience.
 
+   ホスト隠蔽，ホスト数え上げやフィンガープリントの取得からの防御，トポロジ隠蔽
+   といった，ネットワークの難解析化はより複雑なNATを使うと達成される．しかし，ホ
+   ストへの到達性とアプリケーションの接続性が失われるというコストもかかってしま
+   う．繰り返すが，セキュリティの向上は利便性の低下へと繋がる．
 
 3.  Architectural Considerations of IPv6 NAT
 
