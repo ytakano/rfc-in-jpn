@@ -599,10 +599,16 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
 
 2.4.  Topology Hiding
 
+2.4.  トポロジ隠蔽
+
    It is perceived that a network operator may want to hide the details
    of the network topology, the size of the network, the identities of
    the internal routers, and the interconnection among the routers.
    This desire has been discussed in [RFC4864] Sections 4.4 and 6.2.
+
+   ネットワーク管理者がネットワークトポロジ，ネットワークの大きさ，内部ルータ，
+   ルータ間の連携などの詳細を隠蔽したがるのは理解できることである．この要求につ
+   いては，[RFC4864]の4.4と6.2節で議論されている．
 
    However the success of topology hiding is dependent upon the
    complexity, dynamism, and pervasiveness of bindings the NAT employs
@@ -610,6 +616,12 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
    topology will be hidden, but the less likely that complex connection
    types will successfully traverse the NAT barrier.  Thus the trade-off
    is reachability across applications.
+
+   しかしながら，トポロジ隠蔽の成功は，前述したNATのアドレス割り当ての複雑さ，ア
+   ドレスの変化の度合い，およびその普及に依存している．より複雑であれば，よりト
+   ポロジは隠蔽されるだろう．しかし，そのような複雑な種類の接続はNAT越えを阻害す
+   るように思われる．したがって，これはアプリケーションとの接続性に関してトレー
+   ドオフとなっていると言える．
 
    Even if one can hide the actual addresses of internal hosts through
    address translation, this does not necessarily prove sufficient to
@@ -622,6 +634,15 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
    distance from the NAT device may be learned, but not its exact
    location or particular internal subnet.
 
+   たとえ，内部ホストの実際のアドレスを，アドレス変換により隠蔽できたとしても，
+   必ずしも内部トポロジを隠蔽するのに十分であるとは言えない．受動的にパケットを
+   観測することで，トポロジ情報の幾つかの側面を推測することは可能だろう．例え
+   ば，パケットのタイミング，ディレイの計測，ホップ制限フィールドやその他のパ
+   ケットフィールドなどをもとに，複数ホスト間の相対的な距離を推測できる．ひとた
+   び，観測されたセッションが，以前に得たホストのフィンガープリントと一致したな
+   ら，ホストからNATまでの距離が判明する．しかし，正確な位置または内部サブネット
+   の特定は出来ない．
+
    Host fingerprinting is required in order to do a thorough distance
    mapping.  An attacker might then use message contents to lump certain
    types of devices into logical clusters, and take educated guesses at
@@ -631,6 +652,15 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
    NATs.  The simpler and more static the NAT, the more possible this
    is.  The more complex and dynamic and non-persistent the NAT
    bindings, the more difficult.
+
+   ホストのフィンガープリント取得は，完璧な距離のマッピングを計測するために必要
+   とされる．次に，攻撃者はメッセージの中身を利用して特定のデバイスを論理的にク
+   ラスタリングし，攻撃時に経験に基づいた推測を行うだろう．しかしこれは，完璧な
+   距離のマッピングでは無い．いかつかのNATは，アプリケーション層のプロクシが行う
+   ように，TTLのホップカウントを書き換える(ただしこれは，より高機能なNATの管理
+   者設定である)．より単純で静的なNATでは，マッピングを完全にすることはより簡単
+   となる．より複雑で，動的で一時的なアドレス割り当てを行うNATの場合，より難しく
+   なる．
 
 2.5.  Summary Regarding NAT as a Tool for Network Obfuscation
 
