@@ -748,12 +748,20 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
 
 3.  Architectural Considerations of IPv6 NAT
 
+3.  IPv6 NATのアーキテクチャ上考慮すべき点
+
    First it is important to distinguish between the effects of a NAT box
    vs. the effects of a firewall.  A firewall is intended to prevent
    unwanted traffic [RFC4948] without impacting wanted traffic, whereas
    a NAT box also interferes with wanted traffic.  In the remainder of
    this section, the term "reachability" is used with respect to wanted
    traffic.
+
+   はじめに，NAT箱とファイアウォールの効果を区別することは非常に重要である．ファ
+   イアウォールは，NAT箱が必要とするトラフィックを妨げるのに対して，必要とするト
+   ラフィックに影響を与えずに，望まないトラフィック[RFC4948]を防ぐためにある．な
+   お，以下本節では，「接続性」という語句を必要とされるトラフィックに対してのみ
+   用いる．
 
    The discussions on IPv6 NAT often refer to the wide deployment of
    IPv4 NAT, where people have both identified tangible benefits and
@@ -762,7 +770,11 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
    not, bring.  Little attention has been paid to the bigger picture, as
    we elaborate below.
 
-
+   IPv6のNATを議論する上で，しばしば広く普及しているため，実際に触れることが出来
+   てオペレーションの経験のあるIPv4 NATが引き合いに出される．しかしながら，これ
+   までのところ，議論は主にIPv6 NATがもたらす潜在的利点について焦点が当てられて
+   おり，以下で詳しく述べるように，より広範な影響についてはほとんど注目されてい
+   ない．
 
 
 Thaler, et al.           Expires April 29, 2010                 [Page 9]
@@ -776,6 +788,11 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
    of the Internet that does not do IPv6 NAT?  This important question
    does not seem to have been addressed, or addressed adequately.
 
+   IPv6 NATがもたらす利点を考慮する上で，「もしあるサイトがIPv6を利用したなら，
+   残りのNATを用いないインターネットにもたらす潜在的な影響は何か？」という大きな
+   問題は見過ごしてはならない．この重要な問題は解決できないか，出来たとしても完
+   全には解決できないように思われる．
+
    We believe that the discussions on IPv6 NAT should be put in the
    context of the overall Internet architecture.  The foremost question
    is not how many benefits one may derive from using IPv6 NAT, but more
@@ -783,6 +800,12 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
    Internet are willing to deploy IPv6 NAT, and hence whether we want to
    make IP address translation a permanent block in the Internet
    architecture.
+
+   我々はIPv6 NATに関する議論は，インターネットアーキテクチャ全体という文脈でと
+   らえるべきである．最も重要な問いは，IPv6 NATを利用するとどの程度の利益が得ら
+   れるかと言うことではなく，根本的に，インターネットの主要な参加者はIPv6 NATの
+   普及を望んでいるのかどうか，そして今後，インターネットアーキテクチャ中の静的
+   ブロックにIPアドレス変換を用いたいたいかどうかである．
 
    One may argue that the answers to the above questions depend on
    whether we can find adequate solutions to the renumbering and
@@ -793,6 +816,14 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
    feature to be supported in the future, and NAT-based multihoming has
    serious limitations as discussed earlier.  The real issue is not
    multihoming per se, but the need for a scalable routing system.
+
+   上記の問いに対する答えは，我々がアドレス再設定とマルチホームの問題に対して満
+   足の行く解決法が発見できるかどうかに依存しているとも言える．IPv6 NATがこの2つ
+   の問題に対する唯一の答えでないことを示すのは価値のあることだろう．アドレス再
+   設定はプロバイダ独立アドレスを用いることで避けることが出来る．マルチホームは
+   既に今日普及しており，将来においても新たな機能がサポートされることはないだろ
+   うし，以前に述べたようにNATベースのマルチホームは深刻な制限を持っている．本質
+   的な問題はマルチホームではなく，ルーティングシステムの規模追従性にある．
 
    If the answer to the above two questions is no, then non-IPv6-NAT
    parts of the world should *not* be affected by those sites that want
@@ -809,11 +840,28 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
    only the cost of additional boxes, but also increased difficulties in
    network monitoring and problem debugging.
 
+   もし上記2つの問いに対する答えがノーなら，IPv6 NATを用いないサイトは，IPv6 NAT
+   を用いているサイトから影響を受けるべきではない．より具体的にいうと，IPv6の
+   ユーザは両方のエンド間にアドレス変換の箱あることを心配することなく，お互いに
+   直接通信できるべきである．一般的に，IPv6アプリケーションの開発者は，NAT越えに
+   関する問題を考慮することなく，(必要とするトラフィックの場合)end-to-endの接続
+   性が保たれていることを仮定して開発出来るべきである．例えば，end-to-endのアド
+   レス付けであれば，ソーシャルなアプリケーションやマルチパーティのプログラムは
+   素直に実装できるが，アドレス変化の存在により非常に複雑になってしまっている．
+   同様に，ネットワーク管理者も，複雑なNATを追加することなくネットワークの運用を
+   出来るべきである．NAT箱はそのコストが係るのみではなく，ネットワークの監視や問
+   題解決も難しくさせる．
+
    Given the diversity of the Internet user populations and the
    diversity in today's operational practice, it is conceivable that
    some parties may have a strong desire to deploy IPv6 NAT, and the
    Internet should accommodate different views that lead to different
    practices (i.e., some using IPv6 NAT, others not).
+
+   インターネットを利用する人々の多様化と，今日のオペーレーション方法の多様化に
+   より，幾つかの参加者がIPv6 NATの普及を強く要望することも想像できる．そして，
+   インターネットは(IPv6 NATを使うかや，他の方法を使うかといった)多様性を受け入
+   れるべきである．
 
    If we accept the view that some, but not all, parties want IPv6 NAT,
    then the real debate should not be on what benefits IPv6 NAT may
@@ -832,6 +880,14 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
    scope.  If IPv6 NAT design can achieve this goal, then the Internet
    as a whole can strive for (re-installing) the end-to-end reachability
    model.
+
+   もし，全てでないにせよIPv6 NATを希望する参加者を受け入れるなら，IPv6 NATがも
+   たらすであろう利点は何かという，本質的議論はされるべきではない．ネットワーク
+   アドレス変換はユーザに特定に利益をもたらすことは否定できない．しかしながら，
+   我々が解決すべき本当の問題は，NATが及ぼす影響を局所的に制限したIPv6 NATを，ど
+   のようにして設計するかである．もし，IPv6 NATの設計がこれを達成できるなら，イ
+   ンターネット全体が，end-to-endの接続性モデルを取り戻す事を取り組むことが出来
+   るだろう．
 
 
 4.  Solution Space
