@@ -59,11 +59,17 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
 
 Abstract
 
+概要
+
    There has been much recent discussion on the topic of whether the
    IETF should develop standards for IPv6 Network Address Translators
    (NATs).  This document articulates the architectural issues raised by
    IPv6 NATs, the pros and cons of having IPv6 NATs, and provides the
    IAB's thoughts on the current open issues and the solution space.
+
+   IETFはIP6ネットワークアドレス変換の標準化を行うべきかどうかについて，近頃議論
+   されている．本文書ではIPv6 NATが及ぼすアーキテクチャ上の問題点と利点について
+   明確にし，IABが考える現在未解決となっている問題と，その解決案について述べる．
 
 
 Table of Contents
@@ -892,8 +898,13 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
 
 4.  Solution Space
 
+4.  解決方法
+
    From an end-to-end perspective, the solution space for renumbering
    and multihoming can be broadly divided into three classes:
+
+   end-to-endの視点からすると，アドレス再設定とマルチホームはおおまかに3つのクラ
+   スに分けることが出来る．
 
    1.  Endpoints get a stable, globally reachable address: In this class
        of solutions, end sites use provider-independent addressing and
@@ -909,6 +920,19 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
        short-term approaches to resolve today's gap between the
        continued routing table growth and limitations in existing router
        capacity [NANOG].
+
+   1.  エンドポイントは永続的でグローバルな接続性のあるアドレスをもつ．この解決
+       方法では，エンドのサイトはプロバイダ独立アドレスを利用する．そのため，エ
+       ンドポイントはサービスプロバイダの変更の影響を受けない．この解決方法を成
+       し遂げるためには，プロバイダ独立アドレスが全ての管理ネットワーク（すなわ
+       ち，機器に対して，アドレス又はプレフィクスを手動設定しているようなネット
+       ワーク）で有効でなければならない．しかしながら，今日の慣例では，小さなも
+       のを含む全てのネットワークにプロバイダ独立アドレスを割り当てることは，グ
+       ローバルなルーティングシステムの規模追従性に影響を及ぼしてしまう．これ
+       は，現在，研究と実証が行われている領域でもある．実際のところ，ネットワー
+       ク管理者も同様に，ルーティングテーブルの継続的な増加とルータのキャパシ
+       ティ制限間の不均衡さを解決すべく，短期的な解決手法の開発を行っている．
+
    2.  Endpoints get a stable but non-globally-routable address on
        physical interfaces but a dynamic, globally routable address
        inside a tunnel: In this class of solutions, hosts use locally-
@@ -925,6 +949,21 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
        infrastructure devices are owned by different organizations, then
        solutions are harder to incrementally deploy due to the incentive
        and coordination issues involved.
+
+   2.  エンドポイントは，永続的であるがグローバルな接続性を持たないアドレスを物
+       理インターフェースに持つ一方，トンネル内では動的でグローバルな接続性を持
+       つアドレスを持つ．この解決方法では，サイト内の通信に，ホストはローカルな
+      （そしてプロバイダ独立の）アドレスを利用する．その結果，ルータやDHCP等と
+       言ったシステム全てが，永続的なアドレスを持つことになる．インフラ機器への
+       トンネリングは，ホストにグローバルな接続性を持つアドレスを提供するために
+       利用される．このグローバルな接続性を持つアドレスは，将来変更されるかも知
+       れないが，しかし，アドレスの変更は，DNSサーバやアプリケーションを含む，ト
+       ンネルを越えて操作するようなシステムによって制限される．しかしながら，こ
+       れらのシステムは今日では，DNSの動的更新などの利用によって既に対処されてい
+       る．しかしながら，もしエンドポイントとトンネル機器が違う組織によって所有
+       されるなら，インセンティブと調整の問題が関係するため，徐々に配置すると
+       言った解決は難しくなってしまう．
+
    3.  Endpoints get a stable address which gets translated in the
        network: In this class of solutions, end sites use non-globally-
        routable addresses within the site, and translate them to
@@ -946,6 +985,16 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
        solutions are harder to incrementally deploy due to the incentive
        and coordination issues involved.
 
+   3.  エンドポイントはネットワークによって変換される永続的なアドレスを持つ．こ
+       の解決方法では，エンドサイトはグローバルな接続性の内アドレスをサイト内で
+       使用し，これらのアドレスをグローバルな接続性のあるアドレスに変換する．一
+       般的に，アドレス変換は[RFC4924]の主題となっているend-to-endの透過性を損
+       なってしまう．もし，この変換が逆に行うことも可能で，実際に通信の対向エン
+       ド側に到着するまでに逆変換されるなら，end-to-endの透過性は保たれる．しか
+       しながら，もし2つの変換器が違う組織によって運用されるなら，インセンティブ
+       と調整の問題が関係するため，徐々に配置すると言った解決は難しくなってしま
+       う．
+
    Concerning routing scalability, although there is no immediate
    danger, routing scalability has been a long time concern in
    operational communities, and an effective and deployable solution
@@ -958,6 +1007,17 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
    allow assigning provider-independent IPv6 addresses to all user
    communities, the Internet can avoid the complexity and fragility and
    other unforeseen problems introduced by NAT.
+
+   ルーティングの規模追従性に関してだが，現状すぐさま機器となる状況では無いとは
+   言え，ルーティングの規模追従性はオペレータのコミュンティにより長期間にわたっ
+   て影響してきたし，効率的で配置可能な解決方法は開発すべきである．我々は，近い
+   将来に幾つかの組織がNATを運用できるかどうかと言うよりも，むしろ，インターネッ
+   トの規模追従性に関する問題を緩和させるために，好んでNATが用いられるようになる
+   のかと，アーキテクチャ全般に係るコストを理解するために，NATが及ぼす潜在的な影
+   響について調査されるかどうかを良く見ていかなければならない．もし全てのユーザ
+   コミュニティにIPv6のプロバイダ独立アドレスが割り当てらられる前に，効率的な解
+   決方法が運用されたならば，インターネットが複雑で脆弱なものにならず，NATによっ
+   てもたらされる予期しない問題からも解放されるだろう．
 
 4.1.  Discussion
 
