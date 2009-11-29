@@ -1016,10 +1016,12 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
    のかと，アーキテクチャ全般に係るコストを理解するために，NATが及ぼす潜在的な影
    響について調査されるかどうかを良く見ていかなければならない．もし全てのユーザ
    コミュニティにIPv6のプロバイダ独立アドレスが割り当てらられる前に，効率的な解
-   決方法が運用されたならば，インターネットが複雑で脆弱なものにならず，NATによっ
+   決方法が運用されたならば，インターネットは複雑で脆弱なものにならず，NATによっ
    てもたらされる予期しない問題からも解放されるだろう．
 
 4.1.  Discussion
+
+4.1.  議論
 
    As [RFC4924] states:
       A network that does not filter or transform the data that it
@@ -1030,12 +1032,26 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
       Internet's most essential characteristic as well as one of the
       most important contributors to its success.
 
+   [RFC4924]参照：
+      フィルタリングや通信データの変換が行われないネットワークのことを，パケット
+      の内容にとって透過的，または非記憶的であると言う．非記憶的な転送を行うネッ
+      トワークは，核となる部分の変更無しに新たなサービスを配置することを可能にす
+      る．これはおそらく，インターネットに最も必要不可欠な特徴であり，インター
+      ネットが成功を収めた最も重要な理由の一つである．
+
    We believe that providing end-to-end transparency, as defined above,
    is key to the success of the Internet.  While some fields of traffic
    (e.g., Hop Limit) are defined to be mutable, transparency requires
    that fields not defined as such arrive un-transformed.  Currently,
    the source and destination addresses are defined as immutable fields,
    and are used as such by many protocols and applications.
+
+   我々は上記で定義されたようなend-to-endの透過性は，インターネットが成功を収め
+   た鍵であると信じている．しかし，ホップリミットなど幾つかのフィールドは変更可
+   能であると定義される．透過性の要求は，これらフィールドの書き換えが行われない
+   ことを求めない．現在，送信元と宛先のアドレスが書き換えるべきでないフィールド
+   して定義され，これらは多くのプロトコルやアプリケーションによって書き換えが起
+   こらないフィールドとして利用される．
 
    Each of the three classes of solution can be defined in a way that
    preserves end-to-end transparency.  We strongly encourage the
@@ -1044,7 +1060,12 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
    translation or some other technique.  Solutions can then be compared
    based on other aspects such as scalability and ease of deployment.
 
-
+   end-to-endの透過性を保ったままで3つの解決方法が定義できる．我々は，解決方法を
+   提案する際には，その方法がトンネリングをもとにしたものであろうと，アドレス変
+   換をもともしたものであろうと，又はそれ以外の方法であろうと，end-to-endの透過
+   性を仕様要求に含めることを，コミュニティが考慮することを強く求める．その後，
+   解決方法は，例えば規模追従性や配置の容易さなどの他の側面をもとにして評価でき
+   る．
 
 
 
@@ -1056,8 +1077,13 @@ Internet-Draft           IPv6 NAT Considerations            October 2009
 
 5.  Security Considerations
 
+5.  セキュリティ関連
+
    Section 2 discusses potential privacy concerns as part of the Host
    Counting and Topology Hiding problems.
+
+   2節では，ホスト数え上げとトポロジ隠蔽の問題に関連する一部分として，潜在的なプ
+   ライバシについて議論を行った．
 
 
 6.  IANA Considerations
