@@ -1367,15 +1367,22 @@ Status of This Memo
 
      3.4  Reliable Communication
 
+     3.4  信頼性のある通信
+
           RDP implements a reliable message service through  a  number
      of  mechanisms.   These include the insertion of sequence numbers
      and checksums into  segments,  the  positive  acknowledgement  of
      segment  receipt,  and  timeout  and  retransmission  of  missing
      segments.
 
+       RDPは多くの機能を用いて信頼性のあるメッセージサービスを実現する．これら
+       は，セグメントにシーケンス番号とチェックサムの挿入，セグメント受信時の能
+       動的な確認応答，そして喪失したセグメントのタイムアウトと再送信を含む．
 
 
      3.4.1  Segment Sequence Numbers
+
+     3.4.1  セグメントのシーケンス番号
 
           Each segment transporting data has a  sequence  number  that
      uniquely  identifies  it  among  all  other  segments in the same
@@ -1400,9 +1407,18 @@ Status of This Memo
 
      sent with the next valid sequence number.
 
-
+       データを転送する各々のセグメントは同一コネクション上において一意に識別さ
+     れるシーケンス番号を持つ．シーケンス番号の初期値はコネクションが開かれた時
+     に選ばれ，単調に増加するクロックから値を読むことによって選ばれる．データが
+     含まれるセグメントが転送される際に，シーケンス番号がインクリメントされる．
+     データを含まないセグメントの場合，シーケンス番号はインクリメントされない．
+     しかしながら，データを含むことの出来ないSYNとNULセグメントは例外である．SYN
+     セグメントは常にシーケンス番号の初期値である，一意のシーケンス番号と共に送
+     信され，NULセグメントは次の正当なシーケンス番号と共に送信される．
 
      3.4.2  Checksums
+
+     3.4.2  チェックサム
 
           Each RDP segment contains a checksum to allow  the  receiver
      to  detect  damaged  segments.   RDP  uses  a non-linear checksum
@@ -1410,6 +1426,11 @@ Status of This Memo
      on  data  in  units  of  four octets (32 bits).  The area that is
      covered by the checksum includes both the RDP header and the  RDP
      data area.
+
+       各々のRDPセグメントは，受信側でセグメントの損傷を検出できるように，
+     チェックサムを含む．RDPは32ビット幅で，データ上の4オクテット(32ビット)を一
+     単位として操作する非線形のチェックサムアルゴリズムを用いる．このチェックサ
+     ムが扱うエリアはRDPのヘッダとRDPのデータエリアを含む．
 
           If a segment contains a number of  header  and  data  octets
      that  is  not an integral multiple of 4 octets, the last octet is
@@ -1419,9 +1440,15 @@ Status of This Memo
      field  itself  is  replaced  with zeros.  The actual algorithm is
      described in Section 4.2.1.
 
-
+       もしセグメントが多くのヘッダとデータオクテットを含み，それらが4オクテット
+     の整数倍でなかったなら，計算の際，32ビットとなるように最終の右側オクテット
+     はゼロでパディングされる．ゼロパディングされたセグメント部分は転送はされな
+     い．チェックサムの計算中，それ自身のチェックサムフィールドはゼロに置き換え
+     られる．実際のアルゴリズムは4.2.1節に記す．
 
      3.4.3  Positive Acknowledgement of Segments
+
+     3.4.3  セグメントの能動的認応答
 
           RDP assumes it has only an unreliable  datagram  service  to
      deliver  segments.   To  guarantee  delivery  of segments in this
@@ -1434,6 +1461,15 @@ Status of This Memo
      when there is no timely acknowledgement of  the  segment  by  the
      destination host.
 
+       RDPは，セグメント配送の際，信頼性のないデータグラム配信のみ可能であるよう
+     な環境を想定している．このような環境においてセグメントの配送を保証するため
+     に，RDPは能動的な確認応答とセグメントの再送信を行う．データが含まれるセグメ
+     ントと，SYNおよびNULセグメントが宛先ホストによって正しく受信されたとき，確
+     認応答が送信される．ただし，確認応答のみを含むセグメントに対する確認応答は
+     されない．また，損傷のあるセグメントは破棄され，確認応答は送信されない．宛
+     先ホストからのセグメントの確認応答が，一定時間内に確認できなかった場合，セ
+     グメントは再送信される．
+
           RDP allows  two  types  of  acknowledgement.   A  cumulative
      acknowledgement  is  used  to  acknowledge  all  segments up to a
      specified sequence number.  This type of acknowledgement  can  be
@@ -1441,6 +1477,12 @@ Status of This Memo
      Specifically,  the  ACK  control  flag  is  set  and   the   last
      acknowledged  sequence  number  is  placed in the Acknowledgement
      Number field.
+
+       RDPには2種類の確認応答がある．その一つである累積確認応答は，特定のシーケ
+     ンス番号までの全てのセグメントに対する応答に利用される．この確認応答は，RDP
+     ヘッダにある固定長のフィールドを利用して送信することが出来る．特に，ACKコン
+     トロールフラグがセットされ，確認応答番号フィールドには，応答すべきシーケン
+     ス番号のうち最終のものが埋められる．
 
           The extended or non-cumulative  acknowledgement  allows  the
      receiver  to  acknowledge segments out of sequence.  This type of
@@ -1460,11 +1502,20 @@ Status of This Memo
      length header fields are used to hold the sequence numbers of the
      acknowledged out-of-sequence segments.
 
+       拡張，または非累積確認応答は，受信側が順序と外れてきたセグメントを確認応
+     答するために利用される．これはEACKコントロールフラグを用いて行われ，順序に
+     外れてきた応答すべきセグメントのシーケンス番号は，可変長のヘッダフィールド
+     に埋められる．
+
           The type of acknowledgement used is simply a function of the
      order  in which segments arrive.  Whenever possible, segments are
      acknowledged using the cumulative acknowledgement segment.   Only
      out-of-sequence  segments  are  acknowledged  using  the extended
      acknowledgement option.
+
+       確認応答の種類は，単純にセグメントが到着した順番によって使い分けられる．
+     累積確認応答で応答できる場合は累積確認応答が用いられ，順序に外れてきたセグ
+     メントについては拡張確認応答オプションが用いられる．
 
           The user process, when  initiating  the  connection,  cannot
      restrict the type of acknowledgement used on the connection.  The
@@ -1472,9 +1523,15 @@ Status of This Memo
      acknowledgements.   On  the  other hand, the sender may choose to
      ignore out-of-sequence acknowledgements.
 
+       コネクションを初期化する際，ユーザープロセスはコネクション中に利用する確
+     認応答の種類を制限することは出来ない．受信側は順序外セグメントに対する確認
+     応答を処理しないという事をするかも知れない．一方，送信側は，順序外セグメン
+     トに対する確認応答を無視するかも知れない．
 
 
      3.4.4  Retransmission Timeout
+
+     3.3.3  タイムアウトによる再送信
 
           Segments may be lost in transmission for two  reasons:  they
      may  be  lost  or  damaged  due  to  the  effects  of  the  lossy
@@ -1482,6 +1539,11 @@ Status of This Memo
      RDP.   The  positive acknowledgement policy requires the receiver
      to acknowledge a segment only when the segment has been correctly
      received and accepted.
+
+       2つの理由により，転送中にセグメントが喪失すると考えられる．損失の大きいメ
+     ディアにのために，セグメントが喪失または損傷するか，もしくは受信側のRDPに
+     よって破棄されるかでる．積極的確認応答の方針では，受信者は正しくセグメント
+     が受信できた場合にのみ確認応答の送信を行う．
 
           To detect missing segments,  the  sending  RDP  must  use  a
      retransmission  timer for each segment transmitted.  The timer is
@@ -1491,6 +1553,12 @@ Status of This Memo
      expires before an acknowledgement is received for a segment, that
      segment is retransmitted and the timer is restarted.
 
+       失われたセグメントを検出するために，送信側のRDPは各々のセグメントを送信す
+     る際，再送信のためのタイマーを利用しなければならない．タイマーはネットワー
+     ク中のセグメント送信時間と近い値に設定される．セグメントに対する確認応答が
+     受信されたとき，そのセグメントに対するタイマーは中断される．もし，セグメン
+     トに対する確認応答が受信される前にタイマーが起動したなら，そのセグメントは
+     再送信されタイマーは再スタートされる．
 
 
      3.5  Flow Control and Window Management
